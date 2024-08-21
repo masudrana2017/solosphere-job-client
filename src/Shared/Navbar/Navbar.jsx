@@ -1,7 +1,19 @@
+import { Link, NavLink } from "react-router-dom";
+import logo from "../../assets/images/logo.png"
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 const Navbar = () => {
+    const {user,logOut}=useContext(AuthContext)
+    const menuItem=<>
+    
+    <li><a><NavLink to="/">Home</NavLink></a></li>
+    </>
+    const handleLogout=()=>{
+        logOut()
+    }
     return (
         <div>
-            <div className="navbar bg-base-100 border-b-2">
+            <div className="navbar bg-base-100 shadow-sm">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -21,54 +33,46 @@ const Navbar = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li>
-                                <a>Parent</a>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Item 3</a></li>
+                            {
+                                menuItem
+                            }
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                        <Link to="/" className="flex gap-2 items-center"><img src={logo} alt="" className="w-14"/> Solo Sphere</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li><a>Item 3</a></li>
+                       {
+                        menuItem
+                       }
+                        
                     </ul>
                 </div>
-                <div className="navbar-end">
+                <div className="navbar-end z-50">
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
+                            
+                                <div className="w-10 rounded-full">
                                 <img
+                                referrerPolicy="no-referrer"
                                     alt="Tailwind CSS Navbar component"
-                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                    src={user?user.photoURL:'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'} />
                             </div>
+                            
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-32 p-2 shadow">
                             <li>
-                                <a className="justify-between">
+                                <a>
                                     Profile
-                                    <span className="badge">New</span>
                                 </a>
                             </li>
                             <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
+                            {
+                                user?<li><button onClick={handleLogout}>Logout</button></li>:
+                                <li><a><Link to="/login">Login</Link></a></li>
+                            }
                         </ul>
                     </div>
                 </div>
